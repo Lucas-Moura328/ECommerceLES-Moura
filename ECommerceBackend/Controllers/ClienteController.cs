@@ -17,7 +17,7 @@ namespace ECommerceBackend.Controllers
             _service = service;
         }
 
-
+        //#CRUD
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

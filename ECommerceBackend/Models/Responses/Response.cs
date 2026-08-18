@@ -10,7 +10,7 @@ namespace ECommerceBackend.Models.Responses
         public Response()
         {
             Messages = new List<MessagesError>();
-            Dados = new List<T>();
+            //Dados = new List<T>();
         }
     }
 }
