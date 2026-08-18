@@ -4,7 +4,7 @@ namespace ECommerceBackend.Services.ClienteService
 {
     public interface IClienteService
     {
-        Task<List<ClienteResponseDto>> GetAll();
+        Task<IEnumerable<ClienteResponseDto>> GetAll();
 
         Task<ClienteResponseDto?> GetById(Guid id);
 

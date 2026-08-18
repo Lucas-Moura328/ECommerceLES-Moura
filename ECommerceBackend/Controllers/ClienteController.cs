@@ -1,5 +1,4 @@
 ﻿using ECommerceBackend.DTOs.ClienteDto;
-using ECommerceBackend.Models.Domain;
 using ECommerceBackend.Models.Responses;
 using ECommerceBackend.Services.ClienteService;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +19,13 @@ namespace ECommerceBackend.Controllers
         //#CRUD
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [ProducesResponseType(typeof(Response<IEnumerable<ClienteResponseDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Response<IEnumerable<ClienteResponseDto>>>> GetAll()
         {
             var clientes = await _service.GetAll();
 
-            var response = new Response<ClienteResponseDto>
+            var response = new Response<IEnumerable<ClienteResponseDto>>
             {
-                StatusCode = StatusCodes.Status200OK,
                 Dados = clientes
             };
 
@@ -47,33 +46,24 @@ namespace ECommerceBackend.Controllers
         }*/
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Response<ClienteResponseDto>>> GetById(Guid id)
         {
             var cliente = await _service.GetById(id);
 
             if (cliente == null)
             {
-                var responseNotFound = new Response<ClienteResponseDto>
+                return NotFound(new ProblemDetails
                 {
-                    StatusCode = StatusCodes.Status404NotFound
-                };
-
-                responseNotFound.Messages.Add(new MessagesError
-                {
-                    CriticalLevel = CriticalLevelLayer.Normal.ToString(),
-                    Message = "Cliente não encontrado."
+                    Title = "Cliente não encontrado",
+                    Detail = $"Nenhum cliente foi encontrado com o id {id}",
+                    Status = StatusCodes.Status404NotFound
                 });
-
-                return NotFound(responseNotFound);
             }
-
-
 
             var response = new Response<ClienteResponseDto>
             {
-                StatusCode = StatusCodes.Status200OK,
-                Dados = new List<ClienteResponseDto>{ cliente }
+                Dados = cliente
             };
 
             return Ok(response);
@@ -82,18 +72,16 @@ namespace ECommerceBackend.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Create(ClienteCreateDto dto)
+        public async Task<ActionResult<Response<ClienteResponseDto>>> Create(ClienteCreateDto dto)
         {
             var cliente = await _service.Create(dto);
 
             var response = new Response<ClienteResponseDto>
             {
-                StatusCode = StatusCodes.Status201Created,
-
-                Dados = new List<ClienteResponseDto>{ cliente }
+                Dados = cliente
             };
 
-            
+
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = cliente.IdCliente },
@@ -103,56 +91,49 @@ namespace ECommerceBackend.Controllers
 
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Update(Guid id, ClienteUpdateDto dto)
         {
             var atualizado = await _service.Update(id, dto);
 
             if (!atualizado)
             {
-                var response = new Response<ClienteResponseDto>
+                return NotFound(new ProblemDetails
                 {
-                    StatusCode = StatusCodes.Status404NotFound
-                };
-
-                response.Messages.Add(new MessagesError
-                {
-                    CriticalLevel = CriticalLevelLayer.Normal.ToString(),
-                    Message = "Cliente não encontrado."
+                    Title = "Cliente não encontrado",
+                    Detail = $"Nenhum cliente foi encontrado com o id {id}",
+                    Status = StatusCodes.Status404NotFound
                 });
-
-                return NotFound(response);
             }
 
-            return NoContent();
+            return Ok(new Response<object>
+            {
+                Message = "Cliente Atualizado com sucesso."
+            });
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var removido = await _service.Delete(id);
 
             if (!removido)
             {
-                var response = new Response<ClienteResponseDto>
+                return NotFound(new ProblemDetails
                 {
-                    StatusCode = StatusCodes.Status404NotFound
-                };
-
-                response.Messages.Add(new MessagesError
-                {
-                    CriticalLevel = CriticalLevelLayer.Normal.ToString(),
-                    Message = "Cliente não encontrado."
+                    Title = "Cliente não encontrado",
+                    Detail = $"Nenhum cliente foi encontrado com o id {id}",
+                    Status = StatusCodes.Status404NotFound
                 });
-
-                return NotFound(response);
             }
 
-            return NoContent();
+            return Ok(new Response<object>
+            {
+                Message = "Cliente removido com sucesso."
+            });
         }
     }
 }

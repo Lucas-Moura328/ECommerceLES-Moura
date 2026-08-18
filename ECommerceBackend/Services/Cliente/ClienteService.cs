@@ -1,6 +1,7 @@
 ﻿using ECommerceBackend.DTOs.ClienteDto;
 using ECommerceBackend.Models.Domain;
 using ECommerceBackend.Persistence;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceBackend.Services.ClienteService
@@ -8,13 +9,14 @@ namespace ECommerceBackend.Services.ClienteService
     public class ClienteService : IClienteService
     {
         private readonly ECommerceDbContext _context;
+        private readonly PasswordHasher<Cliente> _passwordHasher = new();
 
         public ClienteService(ECommerceDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<ClienteResponseDto>> GetAll()
+        public async Task<IEnumerable<ClienteResponseDto>> GetAll()
         {
             var clientes = await _context.Clientes
                 .ToListAsync();
@@ -62,11 +64,9 @@ namespace ECommerceBackend.Services.ClienteService
             var cliente = new Cliente
             {
                 IdCliente = Guid.NewGuid(),
-
                 Nome = dto.Nome,
                 CPF = dto.CPF,
                 DataNascimento = dto.DataNascimento,
-                Senha = dto.Senha,
                 Email = dto.Email,
                 Genero = dto.Genero,
                 DDD = dto.DDD,
@@ -74,6 +74,8 @@ namespace ECommerceBackend.Services.ClienteService
                 Ativo = true,
                 IsAdmin = false
             };
+
+            cliente.Senha = _passwordHasher.HashPassword(cliente, dto.Senha);
 
             _context.Clientes.Add(cliente);
 
