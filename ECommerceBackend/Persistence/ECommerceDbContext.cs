@@ -33,6 +33,12 @@ namespace ECommerceBackend.Persistence
                 entity.Property(c => c.Ativo).HasDefaultValue(true);
 
                 entity.Property(c => c.IsAdmin).HasDefaultValue(false);
+
+                entity.HasIndex(c => c.CPF).IsUnique();
+
+                entity.HasIndex(c => c.Email).IsUnique();
+
+                entity.HasIndex(c => new { c.DDD, c.Telefone }).IsUnique();
             });
 
             base.OnModelCreating(modelBuilder);

@@ -1,4 +1,5 @@
 ﻿using ECommerceBackend.DTOs.ClienteDto;
+using ECommerceBackend.Exceptions;
 using ECommerceBackend.Models.Domain;
 using ECommerceBackend.Persistence;
 using Microsoft.AspNetCore.Identity;
@@ -61,6 +62,8 @@ namespace ECommerceBackend.Services.ClienteService
 
         public async Task<ClienteResponseDto> Create(ClienteCreateDto dto)
         {
+            await ValidarUnicidadeAsync(dto.CPF, dto.Email, dto.DDD, dto.Telefone);
+
             var cliente = new Cliente
             {
                 IdCliente = Guid.NewGuid(),
@@ -96,15 +99,16 @@ namespace ECommerceBackend.Services.ClienteService
             };
         }
 
-        public async Task<bool> Update(
-            Guid id,
-            ClienteUpdateDto dto)
+        public async Task<bool> Update(Guid id, ClienteUpdateDto dto)
         {
             var cliente = await _context.Clientes
                 .FirstOrDefaultAsync(c => c.IdCliente == id);
 
             if (cliente == null)
                 return false;
+
+
+            await ValidarUnicidadeAsync(dto.CPF, dto.Email, dto.DDD, dto.Telefone, id);
 
             cliente.Nome = dto.Nome;
             cliente.CPF = dto.CPF;
@@ -132,6 +136,29 @@ namespace ECommerceBackend.Services.ClienteService
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        private async Task ValidarUnicidadeAsync(
+            string cpf,
+            string email,
+            string ddd,
+            string telefone,
+            Guid? idCliente = null)
+        {
+            if (await _context.Clientes.AnyAsync(c => c.CPF == cpf && (idCliente == null || c.IdCliente != idCliente)))
+            {
+                throw new BusinessException("CPF já cadastrado.");
+            }
+
+            if (await _context.Clientes.AnyAsync(c => c.Email == email && (idCliente == null || c.IdCliente != idCliente)))
+            {
+                throw new BusinessException("E-mail já cadastrado.");
+            }
+
+            if (await _context.Clientes.AnyAsync(c => c.DDD == ddd && c.Telefone == telefone && (idCliente == null || c.IdCliente != idCliente)))
+            {
+                throw new BusinessException("Telefone já cadastrado.");
+            }
         }
     }
 }

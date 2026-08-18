@@ -16,7 +16,6 @@ namespace ECommerceBackend.Controllers
             _service = service;
         }
 
-        //#CRUD
 
         [HttpGet]
         [ProducesResponseType(typeof(Response<IEnumerable<ClienteResponseDto>>), StatusCodes.Status200OK)]
