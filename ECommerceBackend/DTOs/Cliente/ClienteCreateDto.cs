@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using ECommerceBackend.Validators;
 
-namespace ECommerceBackend.DTOs.ClienteDto
+namespace ECommerceBackend.DTOs.Cliente
 {
     public class ClienteCreateDto
     {

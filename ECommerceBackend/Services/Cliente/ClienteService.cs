@@ -1,4 +1,4 @@
-﻿using ECommerceBackend.DTOs.ClienteDto;
+﻿using ECommerceBackend.DTOs.Cliente;
 using ECommerceBackend.Exceptions;
 using ECommerceBackend.Models.Domain;
 using ECommerceBackend.Persistence;
@@ -17,24 +17,15 @@ namespace ECommerceBackend.Services.ClienteService
             _context = context;
         }
 
+
+
         public async Task<IEnumerable<ClienteResponseDto>> GetAll()
         {
+
             var clientes = await _context.Clientes
                 .ToListAsync();
 
-            return clientes.Select(cliente => new ClienteResponseDto
-            {
-                IdCliente = cliente.IdCliente,
-                Nome = cliente.Nome,
-                CPF = cliente.CPF,
-                DataNascimento = cliente.DataNascimento,
-                Ativo = cliente.Ativo,
-                Email = cliente.Email,
-                Genero = cliente.Genero,
-                DDD = cliente.DDD,
-                Telefone = cliente.Telefone,
-                IsAdmin = cliente.IsAdmin
-            }).ToList();
+            return clientes.Select(CriarRespostaCliente).ToList();
         }
 
         public async Task<ClienteResponseDto?> GetById(Guid id)
@@ -45,23 +36,13 @@ namespace ECommerceBackend.Services.ClienteService
             if (cliente == null)
                 return null;
 
-            return new ClienteResponseDto
-            {
-                IdCliente = cliente.IdCliente,
-                Nome = cliente.Nome,
-                CPF = cliente.CPF,
-                DataNascimento = cliente.DataNascimento,
-                Ativo = cliente.Ativo,
-                Email = cliente.Email,
-                Genero = cliente.Genero,
-                DDD = cliente.DDD,
-                Telefone = cliente.Telefone,
-                IsAdmin = cliente.IsAdmin
-            };
+            return CriarRespostaCliente(cliente);
         }
 
         public async Task<ClienteResponseDto> Create(ClienteCreateDto dto)
         {
+            ValidarDataNascimento(dto.DataNascimento);
+
             await ValidarUnicidadeAsync(dto.CPF, dto.Email, dto.DDD, dto.Telefone);
 
             var cliente = new Cliente
@@ -84,29 +65,17 @@ namespace ECommerceBackend.Services.ClienteService
 
             await _context.SaveChangesAsync();
 
-            return new ClienteResponseDto
-            {
-                IdCliente = cliente.IdCliente,
-                Nome = cliente.Nome,
-                CPF = cliente.CPF,
-                DataNascimento = cliente.DataNascimento,
-                Ativo = cliente.Ativo,
-                Email = cliente.Email,
-                Genero = cliente.Genero,
-                DDD = cliente.DDD,
-                Telefone = cliente.Telefone,
-                IsAdmin = cliente.IsAdmin
-            };
+            return CriarRespostaCliente(cliente);
         }
 
-        public async Task<bool> Update(Guid id, ClienteUpdateDto dto)
+        public async Task Update(Guid id, ClienteUpdateDto dto)
         {
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(c => c.IdCliente == id);
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == id);
 
             if (cliente == null)
-                return false;
+                throw new NotFoundException("Cliente não encontrado.");
 
+            ValidarDataNascimento(dto.DataNascimento);
 
             await ValidarUnicidadeAsync(dto.CPF, dto.Email, dto.DDD, dto.Telefone, id);
 
@@ -120,10 +89,115 @@ namespace ECommerceBackend.Services.ClienteService
 
             await _context.SaveChangesAsync();
 
-            return true;
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task Delete(Guid id)
+        {
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == id);
+
+            if (cliente == null)
+                throw new NotFoundException("Cliente não encontrado.");
+
+            _context.Clientes.Remove(cliente);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AlterarSenha(Guid id, AlterarSenhaDto dto)
+        {
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == id);
+
+            if (cliente == null)
+                throw new NotFoundException("Cliente não encontrado.");
+
+
+
+            PasswordVerificationResult resultadoVerificacaoSenha = _passwordHasher.VerifyHashedPassword(cliente, cliente.Senha, dto.SenhaAtual);
+
+            if (resultadoVerificacaoSenha != PasswordVerificationResult.Success)    //if (!_passwordHasher.VerifyHashedPassword(cliente, cliente.Senha, dto.SenhaAtual).Equals(PasswordVerificationResult.Success))
+                throw new BusinessException("Senha atual incorreta.");              //    throw new BusinessException("Senha atual incorreta."); --- Semântica mais dificil de entender, então preferi criar uma variável para armazenar o resultado da verificação da senha.
+
+
+            cliente.Senha = _passwordHasher.HashPassword(cliente, dto.Senha);
+
+            await _context.SaveChangesAsync();
+
+        }
+
+        public async Task AtivarCliente(Guid id)
+        {
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == id);
+
+            if (cliente == null)
+                throw new NotFoundException("Cliente não encontrado.");
+
+            if (cliente.Ativo)
+                throw new BusinessException("Cliente já está ativo.");
+
+            cliente.Ativo = !cliente.Ativo;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DesativarCliente(Guid id)
+        {
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == id);
+
+            if (cliente == null)
+                throw new NotFoundException("Cliente não encontrado.");
+
+            if (!cliente.Ativo)
+                throw new BusinessException("Cliente já está desativado.");
+
+            cliente.Ativo = !cliente.Ativo;
+
+            await _context.SaveChangesAsync();
+        }
+
+        //Para simular o login, futuramente será implementado JWT, mas por enquanto, para fins de teste, será feito dessa forma (Parece mais dificil que se implementasse JWT).
+
+        public async Task<LoginResponseDto> Login(LoginDto dto)
+        {
+            var cliente = await _context.Clientes
+                .FirstOrDefaultAsync(c => c.Email == dto.Email);
+
+            if (cliente == null)
+            {
+                throw new BusinessException(
+                    "E-mail ou senha inválidos.");
+            }
+
+            if (!cliente.Ativo)
+            {
+                throw new BusinessException(
+                    "Cliente desativado.");
+            }
+
+            var resultado = _passwordHasher.VerifyHashedPassword(
+                cliente,
+                cliente.Senha,
+                dto.Senha);
+
+            if (resultado == PasswordVerificationResult.Failed)
+            {
+                throw new BusinessException(
+                    "E-mail ou senha inválidos.");
+            }
+
+            cliente.IsLogged = true;
+
+            await _context.SaveChangesAsync();
+
+            return new LoginResponseDto
+            {
+                IdCliente = cliente.IdCliente,
+                Nome = cliente.Nome,
+                Email = cliente.Email,
+                IsAdmin = cliente.IsAdmin
+            };
+        }
+
+        public async Task<bool> Logout(Guid id)
         {
             var cliente = await _context.Clientes
                 .FirstOrDefaultAsync(c => c.IdCliente == id);
@@ -131,12 +205,13 @@ namespace ECommerceBackend.Services.ClienteService
             if (cliente == null)
                 return false;
 
-            _context.Clientes.Remove(cliente);
+            cliente.IsLogged = false;
 
             await _context.SaveChangesAsync();
 
             return true;
         }
+
 
         private async Task ValidarUnicidadeAsync(
             string cpf,
@@ -160,5 +235,69 @@ namespace ECommerceBackend.Services.ClienteService
                 throw new BusinessException("Telefone já cadastrado.");
             }
         }
+
+        private static void ValidarDataNascimento(DateTime dataNascimento)
+        {
+            if (dataNascimento.Date > DateTime.Today)
+            {
+                throw new BusinessException(
+                    "A data de nascimento não pode ser posterior à data atual.");
+            }
+        }
+
+        private static ClienteResponseDto CriarRespostaCliente(Cliente cliente)
+        {
+            return new ClienteResponseDto
+            {
+                IdCliente = cliente.IdCliente,
+                Nome = cliente.Nome,
+                CPF = cliente.CPF,
+                DataNascimento = cliente.DataNascimento,
+                Ativo = cliente.Ativo,
+                Email = cliente.Email,
+                Genero = cliente.Genero,
+                DDD = cliente.DDD,
+                Telefone = cliente.Telefone,
+                IsAdmin = cliente.IsAdmin
+            };
+        }
+
+        /*private async Task<Cliente> ObterClienteLogado(Guid id)
+        {
+            var cliente = await _context.Clientes
+                .FirstOrDefaultAsync(c => c.IdCliente == id);
+
+            if (cliente == null)
+            {
+                throw new BusinessException(
+                    "Cliente não encontrado.");
+            }
+
+            if (!cliente.Ativo)
+            {
+                throw new BusinessException(
+                    "Cliente desativado.");
+            }
+
+            if (!cliente.IsLogged)
+            {
+                throw new BusinessException(
+                    "Cliente não está logado.");
+            }
+
+            return cliente;
+        }
+
+        private async Task<Cliente> ObterAdministradorLogado(Guid id)
+        {
+            var cliente = await ObterClienteLogado(id);
+
+            if (!cliente.IsAdmin)
+                throw new BusinessException(
+                    "Apenas administradores podem executar esta operação.");
+
+            return cliente;
+        }*/
+
     }
 }

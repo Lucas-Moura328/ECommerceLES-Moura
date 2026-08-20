@@ -23,8 +23,27 @@ namespace ECommerceBackend.Middlewares
             }
             catch (BusinessException ex)
             {
-                context.Response.StatusCode = 400;
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
+                await context.Response.WriteAsJsonAsync(
+                    new Response<object>
+                    {
+                        Message = ex.Message
+                    });
+            }
+            catch (NotFoundException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+
+                await context.Response.WriteAsJsonAsync(
+                    new Response<object>
+                    {
+                        Message = ex.Message
+                    });
+            }
+            catch (UnauthorizedException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsJsonAsync(
                     new Response<object>
                     {
@@ -33,7 +52,7 @@ namespace ECommerceBackend.Middlewares
             }
             catch (Exception)
             {
-                context.Response.StatusCode = 500;
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
                 await context.Response.WriteAsJsonAsync(
                     new Response<object>

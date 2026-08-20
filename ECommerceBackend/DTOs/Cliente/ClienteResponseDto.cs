@@ -1,6 +1,6 @@
 ﻿using ECommerceBackend.Models.Enums;
 
-namespace ECommerceBackend.DTOs.ClienteDto
+namespace ECommerceBackend.DTOs.Cliente
 {
     public class ClienteResponseDto
     {

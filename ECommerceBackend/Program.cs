@@ -1,12 +1,38 @@
+using ECommerceBackend.Models.Responses;
 using ECommerceBackend.Persistence;
 using ECommerceBackend.Services.ClienteService;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+
+builder.Services
+    .AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .SelectMany(x => x.Value!.Errors.Select(error =>
+                    new ValidationError
+                    {
+                        Campo = x.Key,
+                        Mensagem = error.ErrorMessage
+                    }))
+                .ToList();
+
+            return new BadRequestObjectResult(
+                new Response<List<ValidationError>>
+                {
+                    Message = "Existem erros de validação.",
+                    Dados = errors
+                });
+        };
+    });
 builder.Services.AddDbContext<ECommerceDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
