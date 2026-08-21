@@ -1,4 +1,5 @@
 ﻿using ECommerceBackend.DTOs.Cliente;
+using ECommerceBackend.DTOs.Endereco;
 using ECommerceBackend.Exceptions;
 using ECommerceBackend.Models.Domain;
 using ECommerceBackend.Persistence;
@@ -20,14 +21,14 @@ namespace ECommerceBackend.Services.ClienteService
 
         public async Task<IEnumerable<ClienteResponseDto>> GetAll()
         {
-            var clientes = await _context.Clientes.ToListAsync();
+            var clientes = await _context.Clientes.AsNoTracking().ToListAsync();
 
             return clientes.Select(CriarRespostaCliente).ToList();
         }
 
         public async Task<ClienteResponseDto?> GetById(Guid id)
         {
-            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == id);
+            var cliente = await _context.Clientes.AsNoTracking().Include(c => c.Enderecos).FirstOrDefaultAsync(c => c.IdCliente == id);
 
             if (cliente == null)
                 return null;
@@ -47,7 +48,7 @@ namespace ECommerceBackend.Services.ClienteService
                 Nome = dto.Nome,
                 CPF = dto.CPF,
                 DataNascimento = dto.DataNascimento,
-                Email = dto.Email,
+                Email = dto.Email.Trim().ToLowerInvariant(),
                 Genero = dto.Genero,
                 DDD = dto.DDD,
                 Telefone = dto.Telefone,
@@ -75,7 +76,7 @@ namespace ECommerceBackend.Services.ClienteService
             cliente.Nome = dto.Nome;
             cliente.CPF = dto.CPF;
             cliente.DataNascimento = dto.DataNascimento;
-            cliente.Email = dto.Email;
+            cliente.Email = dto.Email.Trim().ToLowerInvariant();
             cliente.Genero = dto.Genero;
             cliente.DDD = dto.DDD;
             cliente.Telefone = dto.Telefone;
@@ -237,7 +238,21 @@ namespace ECommerceBackend.Services.ClienteService
                 Genero = cliente.Genero,
                 DDD = cliente.DDD,
                 Telefone = cliente.Telefone,
-                IsAdmin = cliente.IsAdmin
+                IsAdmin = cliente.IsAdmin,
+
+                Enderecos = cliente.Enderecos
+                .Select(e => new EnderecoResponseDto
+                {
+                    IdEndereco = e.IdEndereco,
+                    Cep = e.Cep,
+                    Logradouro = e.Logradouro,
+                    Numero = e.Numero,
+                    Bairro = e.Bairro,
+                    Municipio = e.Municipio,
+                    UF = e.UF,
+                    IsEntrega = e.IsEntrega,
+                    IsCobranca = e.IsCobranca
+                }).ToList()
             };
         }
 

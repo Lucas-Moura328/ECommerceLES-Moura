@@ -16,6 +16,6 @@ namespace ECommerceBackend.Models.Domain
         public string Telefone { get; set; } = string.Empty;
         public bool IsAdmin { get; set; } = false;
 
-        //public bool IsLogged { get; set; } Temporário, apenas para controle de login do usuário, futuramente será implementado sistema de autenticação pois parece muita porquisse.
+        public ICollection<Endereco> Enderecos { get; set; } = new List<Endereco>();
     }
 }

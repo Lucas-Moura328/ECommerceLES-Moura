@@ -1,6 +1,8 @@
+using ECommerceBackend.Facade.Cliente;
 using ECommerceBackend.Models.Responses;
 using ECommerceBackend.Persistence;
 using ECommerceBackend.Services.ClienteService;
+using ECommerceBackend.Services.Endereco;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +39,12 @@ builder.Services
 builder.Services.AddDbContext<ECommerceDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IClienteFacade, ClienteFacade>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+//builder.Services.AddScoped<ICartaoService, CartaoService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

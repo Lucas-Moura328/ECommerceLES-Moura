@@ -1,4 +1,5 @@
-﻿using ECommerceBackend.Models.Enums;
+﻿using ECommerceBackend.DTOs.Endereco;
+using ECommerceBackend.Models.Enums;
 
 namespace ECommerceBackend.DTOs.Cliente
 {
@@ -23,6 +24,8 @@ namespace ECommerceBackend.DTOs.Cliente
         public string Telefone { get; set; } = string.Empty;
 
         public bool IsAdmin { get; set; }
+
+        public List<EnderecoResponseDto> Enderecos { get; set; } = new();
 
     }
 }
