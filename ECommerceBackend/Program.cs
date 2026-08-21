@@ -33,6 +33,7 @@ builder.Services
                 });
         };
     });
+
 builder.Services.AddDbContext<ECommerceDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));

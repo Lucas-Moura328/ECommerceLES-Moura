@@ -141,6 +141,30 @@ namespace ECommerceBackend.Controllers
                 Message = "Cliente removido com sucesso."
             });
         }
+
+
+        [HttpGet("filtro")]
+        public async Task<ActionResult<Response<IEnumerable<ClienteResponseDto>>>>GetByFilter([FromQuery] ClienteFiltroDto filtro)
+        {
+            var clientes = await _service.GetByFilter(filtro);
+
+            return Ok(new Response<IEnumerable<ClienteResponseDto>>
+            {
+                Dados = clientes
+            });
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<Response<IEnumerable<ClienteResponseDto>>>>GetBySearch([FromQuery] string termo)
+        {
+            var clientes = await _service.GetBySearch(termo);
+
+            return Ok(new Response<IEnumerable<ClienteResponseDto>>
+            {
+                Dados = clientes
+            });
+        }
+
         #endregion
     }
 }

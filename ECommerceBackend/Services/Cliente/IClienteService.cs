@@ -19,5 +19,9 @@ namespace ECommerceBackend.Services.ClienteService
 
         Task DesativarCliente(Guid id);
 
+        Task<IEnumerable<ClienteResponseDto>> GetByFilter(ClienteFiltroDto filtro);
+
+        Task<IEnumerable<ClienteResponseDto>> GetBySearch(string search);
+
     }
 }
