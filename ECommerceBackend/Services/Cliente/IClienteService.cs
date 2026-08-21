@@ -4,7 +4,7 @@ namespace ECommerceBackend.Services.ClienteService
 {
     public interface IClienteService
     {
-        Task<IEnumerable<ClienteResponseDto>> GetAll(Guid idClienteLogado);
+        Task<IEnumerable<ClienteResponseDto>> GetAll();
 
         Task<ClienteResponseDto?> GetById(Guid id);
 
@@ -19,8 +19,5 @@ namespace ECommerceBackend.Services.ClienteService
 
         Task DesativarCliente(Guid id);
 
-        Task<LoginResponseDto> Login(LoginDto dto);
-
-        Task<bool> Logout(Guid id);
     }
 }

@@ -156,63 +156,6 @@ namespace ECommerceBackend.Services.ClienteService
 
         //Para simular o login, futuramente será implementado JWT, mas por enquanto, para fins de teste, será feito dessa forma (Parece mais dificil que se implementasse JWT).
 
-        public async Task<LoginResponseDto> Login(LoginDto dto)
-        {
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(c => c.Email == dto.Email);
-
-            if (cliente == null)
-            {
-                throw new BusinessException(
-                    "E-mail ou senha inválidos.");
-            }
-
-            if (!cliente.Ativo)
-            {
-                throw new BusinessException(
-                    "Cliente desativado.");
-            }
-
-            var resultado = _passwordHasher.VerifyHashedPassword(
-                cliente,
-                cliente.Senha,
-                dto.Senha);
-
-            if (resultado == PasswordVerificationResult.Failed)
-            {
-                throw new BusinessException(
-                    "E-mail ou senha inválidos.");
-            }
-
-            cliente.IsLogged = true;
-
-            await _context.SaveChangesAsync();
-
-            return new LoginResponseDto
-            {
-                IdCliente = cliente.IdCliente,
-                Nome = cliente.Nome,
-                Email = cliente.Email,
-                IsAdmin = cliente.IsAdmin
-            };
-        }
-
-        public async Task<bool> Logout(Guid id)
-        {
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(c => c.IdCliente == id);
-
-            if (cliente == null)
-                return false;
-
-            cliente.IsLogged = false;
-
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
-
         private async Task ValidarUnicidadeAsync(
             string cpf,
             string email,
@@ -261,43 +204,6 @@ namespace ECommerceBackend.Services.ClienteService
                 IsAdmin = cliente.IsAdmin
             };
         }
-
-        /*private async Task<Cliente> ObterClienteLogado(Guid id)
-        {
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(c => c.IdCliente == id);
-
-            if (cliente == null)
-            {
-                throw new BusinessException(
-                    "Cliente não encontrado.");
-            }
-
-            if (!cliente.Ativo)
-            {
-                throw new BusinessException(
-                    "Cliente desativado.");
-            }
-
-            if (!cliente.IsLogged)
-            {
-                throw new BusinessException(
-                    "Cliente não está logado.");
-            }
-
-            return cliente;
-        }
-
-        private async Task<Cliente> ObterAdministradorLogado(Guid id)
-        {
-            var cliente = await ObterClienteLogado(id);
-
-            if (!cliente.IsAdmin)
-                throw new BusinessException(
-                    "Apenas administradores podem executar esta operação.");
-
-            return cliente;
-        }*/
 
     }
 }

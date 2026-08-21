@@ -17,55 +17,22 @@ namespace ECommerceBackend.Controllers
             _service = service;
         }
 
-        [HttpPost("login")]
-        [ProducesResponseType(
-            typeof(Response<LoginResponseDto>),
-            StatusCodes.Status200OK)]
-        public async Task<ActionResult<Response<LoginResponseDto>>> Login(
-            LoginDto dto)
-        {
-            var cliente = await _service.Login(dto);
-
-            var response = new Response<LoginResponseDto>
-            {
-                Dados = cliente,
-                Message = "Login realizado com sucesso."
-            };
-
-            return Ok(response);
-        }
-
-        [HttpPost("logout/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Response<object>>> Logout(
-            Guid id)
-        {
-            await _service.Logout(id);
-
-            var response = new Response<object>
-            {
-                Message = "Logout realizado com sucesso."
-            };
-
-            return Ok(response);
-        }
-
         [HttpPut("{id}/alterar-senha")]
         public async Task<IActionResult> AlterarSenha(Guid id, AlterarSenhaDto dto)
         {
             await _service.AlterarSenha(id, dto);
-
+            
             return Ok(new Response<object>
             {
                 Message = "Senha alterada com sucesso."
             });
         }
-
+        
         [HttpPut("{id}/ativar")]
         public async Task<IActionResult> AtivarCliente(Guid id)
         {
             await _service.AtivarCliente(id);
-
+            
             return Ok(new Response<object>
             {
                 Message = "Cliente ativado com sucesso."
@@ -76,7 +43,7 @@ namespace ECommerceBackend.Controllers
         public async Task<IActionResult> DesativarCliente(Guid id)
         {
             await _service.DesativarCliente(id);
-
+            
             return Ok(new Response<object>
             {
                 Message = "Cliente desativado com sucesso."
@@ -88,11 +55,11 @@ namespace ECommerceBackend.Controllers
 
 
         #region CRUD
-        [HttpGet("{idAdmin}/clientes")]
+        [HttpGet]
         [ProducesResponseType(typeof(Response<IEnumerable<ClienteResponseDto>>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Response<IEnumerable<ClienteResponseDto>>>> GetAll(Guid idAdmin)
+        public async Task<ActionResult<Response<IEnumerable<ClienteResponseDto>>>> GetAll()
         {
-            var clientes = await _service.GetAll(idAdmin);
+            var clientes = await _service.GetAll();
 
             var response = new Response<IEnumerable<ClienteResponseDto>>
             {
@@ -103,17 +70,6 @@ namespace ECommerceBackend.Controllers
         }
 
 
-
-        /*[HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var cliente = await _service.GetById(id);
-
-            if (cliente == null)
-                return NotFound();
-
-            return Ok(cliente);
-        }*/
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Response<ClienteResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]

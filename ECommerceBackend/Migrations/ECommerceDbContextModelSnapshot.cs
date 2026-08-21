@@ -59,9 +59,6 @@ namespace ECommerceBackend.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsLogged")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -88,7 +85,7 @@ namespace ECommerceBackend.Migrations
                     b.HasIndex("DDD", "Telefone")
                         .IsUnique();
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Clientes", (string)null);
                 });
 #pragma warning restore 612, 618
         }
