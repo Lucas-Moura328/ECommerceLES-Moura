@@ -180,7 +180,7 @@ namespace ECommerceBackend.Controllers
         public async Task<IActionResult> DeleteEndereco(Guid id, uint idEndereco)
         {
             await _facade.DeleteEndereco(id, idEndereco);
-            return Ok(new Response<object> { Message = "Endereço removido com sucesso." });
+            return Ok(new Response<object> { Message = "Endereço removido com sucesso."});
         }
 
         #endregion

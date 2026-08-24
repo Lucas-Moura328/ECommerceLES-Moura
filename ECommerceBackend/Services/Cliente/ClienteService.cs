@@ -6,6 +6,7 @@ using ECommerceBackend.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace ECommerceBackend.Services.ClienteService
 {
     public class ClienteService : IClienteService
@@ -57,6 +58,7 @@ namespace ECommerceBackend.Services.ClienteService
             };
 
             cliente.Senha = _passwordHasher.HashPassword(cliente, dto.Senha);
+
 
             _context.Clientes.Add(cliente);
 

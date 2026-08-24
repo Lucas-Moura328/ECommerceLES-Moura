@@ -1,6 +1,7 @@
 ﻿using ECommerceBackend.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using ECommerceBackend.Validators;
+using ECommerceBackend.DTOs.Endereco;
 
 namespace ECommerceBackend.DTOs.Cliente
 {

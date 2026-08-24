@@ -10,7 +10,7 @@
 
         public string Bairro { get; set; } = string.Empty;
 
-        public string Complemento { get; set; } = string.Empty;
+        public string? Complemento { get; set; } = string.Empty;
 
         public string Cep { get; set; } = string.Empty;
 
