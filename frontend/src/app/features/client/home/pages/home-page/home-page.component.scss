@@ -1,0 +1,34 @@
+.collections {
+  margin-bottom: 2.5rem;
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  &__grid a {
+    position: relative;
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  &__grid img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  &__grid strong {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.6rem;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+}

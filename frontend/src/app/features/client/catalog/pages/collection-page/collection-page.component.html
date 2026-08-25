@@ -1,0 +1,26 @@
+<div class="container">
+  <ui-breadcrumbs [items]="[{ label: 'Inicio', link: ['/'] }, { label: title() }]" />
+
+  <ui-section-header [title]="title()" [subtitle]="result().total + ' produtos'">
+    <app-sort-select [value]="query().sort ?? 'relevance'" (sortChange)="patchQuery({ sort: $event })" />
+  </ui-section-header>
+
+  <div class="catalog">
+    <app-catalog-filters
+      [query]="query()"
+      [franchises]="franchises()"
+      (queryChange)="patchQuery($event)"
+      (cleared)="clearFilters()"
+    />
+
+    <section>
+      <app-product-grid [products]="result().items" />
+      <ui-pagination
+        [page]="result().page"
+        [pageSize]="result().pageSize"
+        [total]="result().total"
+        (pageChange)="changePage($event)"
+      />
+    </section>
+  </div>
+</div>

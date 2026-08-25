@@ -1,0 +1,19 @@
+<ui-section-header title="Produtos" [subtitle]="result().total + ' cadastrados'">
+  <a routerLink="/admin/produtos/novo"><ui-button>Novo produto</ui-button></a>
+</ui-section-header>
+
+<app-table-toolbar
+  placeholder="Buscar por titulo"
+  [statuses]="statuses"
+  (searchChange)="patch({ search: $event })"
+  (statusChange)="patch({ status: $event })"
+/>
+
+<ui-data-table [columns]="columns" [rows]="result().items" (rowClick)="open($event)" />
+
+<ui-pagination
+  [page]="result().page"
+  [pageSize]="result().pageSize"
+  [total]="result().total"
+  (pageChange)="changePage($event)"
+/>

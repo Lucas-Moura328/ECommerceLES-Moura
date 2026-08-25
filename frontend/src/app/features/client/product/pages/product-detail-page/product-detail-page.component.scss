@@ -1,0 +1,20 @@
+.product {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+  h1 {
+    margin: 0.25rem 0 1rem;
+    font-size: 1.8rem;
+  }
+}
+
+.related {
+  margin-top: 3rem;
+}
+
+@media (max-width: 860px) {
+  .product {
+    grid-template-columns: 1fr;
+  }
+}

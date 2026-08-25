@@ -1,0 +1,26 @@
+<div class="container">
+  <ui-section-header title="Carrinho" [subtitle]="cart.itemCount() + ' itens'" />
+
+  @if (cart.items().length) {
+    <div class="cart">
+      <ul class="cart__list">
+        @for (item of cart.items(); track item.variantId) {
+          <app-cart-line-item
+            [item]="item"
+            (quantityChange)="cart.setQuantity(item.variantId, $event)"
+            (removed)="cart.remove(item.variantId)"
+          />
+        }
+      </ul>
+
+      <app-cart-summary [totals]="cart.totals()">
+        <a routerLink="/checkout"><ui-button>Finalizar compra</ui-button></a>
+        <a routerLink="/produtos" class="muted">Continuar comprando</a>
+      </app-cart-summary>
+    </div>
+  } @else {
+    <ui-empty-state title="Seu carrinho esta vazio" description="Adicione produtos para continuar.">
+      <a routerLink="/produtos"><ui-button variant="secondary">Ver catalogo</ui-button></a>
+    </ui-empty-state>
+  }
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+  @if (product(); as item) {
+    <ui-breadcrumbs
+      [items]="[{ label: 'Inicio', link: ['/'] }, { label: 'Produtos', link: ['/produtos'] }, { label: item.title }]"
+    />
+
+    <div class="product">
+      <app-product-gallery [images]="item.images" />
+
+      <div class="product__info">
+        <small class="muted">{{ item.franchise }}</small>
+        <h1>{{ item.title }}</h1>
+
+        <app-variant-selector
+          [optionName]="optionName(item)"
+          [variants]="item.variants"
+          [selectedId]="variant()?.id ?? null"
+          (selected)="selectVariant($event)"
+        />
+
+        @if (variant(); as selected) {
+          <app-add-to-cart-panel
+            [variant]="selected"
+            [stockState]="item.stockState"
+            (added)="addToCart($event)"
+          />
+        }
+      </div>
+    </div>
+
+    <app-product-tabs [product]="item" />
+
+    <section class="related">
+      <ui-section-header title="Voce tambem pode gostar" />
+      <app-product-grid [products]="related()" />
+    </section>
+  } @else {
+    <p class="muted">Carregando produto...</p>
+  }
+</div>

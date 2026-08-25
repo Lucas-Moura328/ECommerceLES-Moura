@@ -1,0 +1,34 @@
+<ui-section-header title="Dashboard" subtitle="Resumo da operacao" />
+
+<div class="stats">
+  <app-stat-card label="Faturamento (mes)" [value]="metrics().revenueMonth | brl" />
+  <app-stat-card label="Faturamento (hoje)" [value]="metrics().revenueToday | brl" />
+  <app-stat-card label="Pedidos em aberto" [value]="metrics().openOrders.toString()" hint="Pendentes, pagos e em separacao" />
+  <app-stat-card label="Estoque baixo" [value]="metrics().lowStock.toString()" hint="Produtos com menos de 6 unidades" />
+  <app-stat-card label="Conversao" [value]="metrics().conversionRate + '%'" />
+</div>
+
+<div class="panels">
+  <ui-card title="Vendas nos ultimos 7 dias">
+    <ul class="bars">
+      @for (day of metrics().salesByDay; track day.date) {
+        <li>
+          <span>{{ day.date }}</span>
+          <span class="bar" [style.width.%]="day.total / 60"></span>
+          <strong>{{ day.total | brl }}</strong>
+        </li>
+      }
+    </ul>
+  </ui-card>
+
+  <ui-card title="Mais vendidos">
+    <ul class="tops">
+      @for (product of metrics().topProducts; track product.title) {
+        <li>
+          <span>{{ product.title }}</span>
+          <small class="muted">{{ product.units }} un · {{ product.revenue | brl }}</small>
+        </li>
+      }
+    </ul>
+  </ui-card>
+</div>

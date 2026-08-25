@@ -1,0 +1,21 @@
+<div class="container">
+  <app-hero-banner />
+
+  <app-showcase-row title="Novidades" subtitle="Recem-chegados na loja" [products]="showcase().newArrivals" />
+
+  <section class="collections">
+    <h2>Colecoes</h2>
+    <div class="collections__grid">
+      @for (collection of showcase().collections; track collection.id) {
+        <a [routerLink]="['/colecoes', collection.slug]">
+          <img [src]="collection.image" [alt]="collection.name" />
+          <strong>{{ collection.name }}</strong>
+        </a>
+      }
+    </div>
+  </section>
+
+  <app-showcase-row title="Em promocao" subtitle="Ofertas por tempo limitado" [products]="showcase().onSale" />
+  <app-showcase-row title="Destaques" [products]="showcase().featured" />
+  <app-showcase-row title="Repostos" subtitle="Voltaram ao estoque" [products]="showcase().restocked" />
+</div>
