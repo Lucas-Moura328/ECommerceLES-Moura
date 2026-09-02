@@ -1,0 +1,135 @@
+/**
+ * Site Header Styles
+ * 
+ * Estilos do header da loja.
+ */
+
+.site-header {
+  background-color: var(--color-accent-dark);
+  border-bottom: 1px solid var(--color-border-default);
+  padding: var(--spacing-0) 0;
+}
+
+.site-header__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+  height: 100%;
+}
+
+.site-header__logo {
+  text-decoration: none;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  white-space: nowrap;
+}
+
+.site-header__logo-text {
+  background: var(--color-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.site-header__nav-desktop {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center; /* Estica botões para ocupar toda altura */
+  gap: 0; /* Sem gap para botões encostados */
+  height: 100%; /* Ocupa toda altura do container */
+}
+
+.site-header__search {
+  flex: 1;
+  max-width: 300px;
+}
+
+.site-header__action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-none); /* Sem arredondamento */
+  color: var(--color-primary);
+  transition: all var(--transition-fast) var(--transition-ease-in-out);
+  background: transparent;
+  height: 100%; /* Ocupa toda a altura */
+  border: none;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.site-header__action-btn-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.site-header__action-btn:hover {
+  color: var(--color-text-inverse);
+  background-color: var(--color-primary);
+}
+
+/* Responsividade - esconder texto do botão login no mobile */
+@media (max-width: 768px) {
+  .site-header__action-btn-text {
+    display: none;
+  }
+}
+
+.site-header__cart {
+  flex-shrink: 0;
+}
+
+.site-header__menu-toggle {
+  display: none;
+  padding: var(--spacing-3) var(--spacing-4);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-none);
+  background: transparent;
+  border: none;
+}
+
+.site-header__menu-toggle:hover {
+  color: var(--color-primary);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .site-header__nav-desktop {
+    display: none;
+  }
+
+  .site-header__search {
+    display: none;
+  }
+
+  .site-header__menu-toggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: var(--spacing-4) 0;
+  }
+
+  .site-header__container {
+    padding: 0 var(--spacing-3);
+    gap: var(--spacing-4);
+  }
+
+  .site-header__logo {
+    font-size: var(--font-size-xl);
+  }
+}

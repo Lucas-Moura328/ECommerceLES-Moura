@@ -1,0 +1,19 @@
+<!-- Admin Layout - Shell da Área Administrativa -->
+<div class="admin-layout">
+  <!-- Sidebar de navegação -->
+  <app-admin-sidebar class="admin-layout__sidebar"></app-admin-sidebar>
+
+  <!-- Container principal -->
+  <div class="admin-layout__container">
+    <!-- Topbar (toggle menu + usuário) -->
+    <app-admin-topbar class="admin-layout__topbar"></app-admin-topbar>
+
+    <!-- Conteúdo principal roteado -->
+    <main class="admin-layout__main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- Host de notificações globais -->
+  <app-toast-host class="admin-layout__toast-host"></app-toast-host>
+</div>

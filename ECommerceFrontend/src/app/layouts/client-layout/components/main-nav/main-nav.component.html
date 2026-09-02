@@ -1,0 +1,16 @@
+<!-- Main Navigation -->
+<nav class="main-nav">
+  <ul class="main-nav__list">
+    @for (link of navLinks; track link.path) {
+      <li class="main-nav__item">
+        <a
+          routerLink="{{ link.path }}"
+          routerLinkActive="main-nav__link--active"
+          class="main-nav__link"
+        >
+          {{ link.label }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

@@ -1,0 +1,49 @@
+<!-- Site Header -->
+<header class="site-header">
+  <div class="site-header__container">
+    <!-- Marca/Logo -->
+    <a routerLink="/home" class="site-header__logo" aria-label="MouraCamiseta - Página Inicial">
+      <span class="site-header__logo-text">MouraCamiseta</span>
+    </a>
+
+    <!-- Navegação principal (desktop) -->
+    <nav class="site-header__nav-desktop">
+      <app-main-nav></app-main-nav>
+    </nav>
+
+    <!-- Ações do header (login, busca, favoritos, carrinho) -->
+    <div class="site-header__actions">
+      <!-- Botão de Login -->
+      <button class="site-header__action-btn" aria-label="Login" title="Entrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <polyline points="10 17 15 12 10 7"></polyline>
+          <line x1="15" y1="12" x2="3" y2="12"></line>
+        </svg>
+        <span class="site-header__action-btn-text">Entrar</span>
+      </button>
+
+      <!-- Barra de busca -->
+      <app-search-bar class="site-header__search"></app-search-bar>
+
+      <!-- Favoritos (placeholder - funcionalidade futura) -->
+      <button class="site-header__action-btn" aria-label="Favoritos" title="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </button>
+
+      <!-- Mini-carrinho -->
+      <app-mini-cart class="site-header__cart"></app-mini-cart>
+
+      <!-- Menu mobile (toggle) -->
+      <button class="site-header__menu-toggle" aria-label="Menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,64 @@
+/**
+ * Customer List Page Styles
+ * 
+ * Estilos da página de listagem de clientes (placeholder).
+ */
+
+.customer-list-page {
+  padding: var(--spacing-6);
+}
+
+.customer-list-page__header {
+  margin-bottom: var(--spacing-8);
+}
+
+.customer-list-page__title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.customer-list-page__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.customer-list-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.customer-list-page__filters {
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-default);
+}
+
+.customer-list-page__filters p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.customer-list-page__placeholder {
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-default);
+}
+
+.customer-list-page__placeholder p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-2) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.customer-list-page__placeholder p:last-child {
+  margin-bottom: 0;
+}

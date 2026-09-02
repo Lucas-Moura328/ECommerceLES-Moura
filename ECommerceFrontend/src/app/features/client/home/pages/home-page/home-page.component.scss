@@ -1,0 +1,54 @@
+/**
+ * Home Page Styles
+ * 
+ * Estilos da página inicial (placeholder).
+ */
+
+.home-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12) var(--spacing-4);
+  background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-secondary) 100%);
+}
+
+.home-page__container {
+  max-width: 800px;
+  text-align: center;
+}
+
+.home-page__title {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-4) 0;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-page__subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-8) 0;
+}
+
+.home-page__placeholder {
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.home-page__placeholder p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-2) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.home-page__placeholder p:last-child {
+  margin-bottom: 0;
+}

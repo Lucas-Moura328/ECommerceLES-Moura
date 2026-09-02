@@ -1,3 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+/**
+ * Estilos Globais - E-Commerce MouraCamiseta
+ * 
+ * Este arquivo importa:
+ * 1. Tailwind CSS (framework de utilitários)
+ * 2. Design tokens customizados
+ * 3. Reset CSS customizado
+ * 4. Classes utilitárias adicionais
+ */
 
+/* Import Tailwind CSS */
 @import 'tailwindcss';
+
+/* Import design tokens customizados */
+@import './styles/_tokens.scss';
+
+/* Import reset CSS */
+@import './styles/_reset.scss';
+
+/* Import classes utilitárias adicionais */
+@import './styles/_utilities.scss';
+
+/* ============================================
+   ESTILOS GLOBAIS ADICIONAIS
+   ============================================ */
+
+/* Scrollbar customizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: var(--radius-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+/* Seleção de texto */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+::-moz-selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Focus visible melhorado */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Transições globais */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: var(--transition-ease-in-out);
+  transition-duration: var(--transition-base);
+}
+
+/* Exceções para transições */
+*:focus-visible,
+*:hover {
+  transition-duration: var(--transition-fast);
+}

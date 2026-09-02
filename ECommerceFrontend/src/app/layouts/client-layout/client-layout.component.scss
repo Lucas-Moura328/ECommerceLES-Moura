@@ -1,0 +1,55 @@
+/**
+ * Client Layout Styles
+ * 
+ * Estilos do shell da área cliente.
+ */
+
+.client-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+}
+
+.client-layout__banner {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  text-align: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.client-layout__header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky);
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.client-layout__main {
+  flex: 1;
+  min-height: calc(100vh - 200px); /* Ajuste conforme header + footer */
+}
+
+.client-layout__footer {
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+  padding: var(--spacing-8) var(--spacing-4);
+  margin-top: auto;
+}
+
+.client-layout__toast-host {
+  position: fixed;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  z-index: var(--z-index-toast);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .client-layout__footer {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+}

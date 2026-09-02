@@ -1,0 +1,21 @@
+<!-- Client Layout - Shell da Área Cliente -->
+<div class="client-layout">
+  <!-- Barra de aviso (opcional - pode ser ativada futuramente) -->
+  <!-- <div class="client-layout__banner">
+    <p>Frete grátis para compras acima de R$ 199,00!</p>
+  </div> -->
+
+  <!-- Header da loja -->
+  <app-site-header class="client-layout__header"></app-site-header>
+
+  <!-- Conteúdo principal roteado -->
+  <main class="client-layout__main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer da loja -->
+  <app-site-footer class="client-layout__footer"></app-site-footer>
+
+  <!-- Host de notificações globais -->
+  <app-toast-host class="client-layout__toast-host"></app-toast-host>
+</div>

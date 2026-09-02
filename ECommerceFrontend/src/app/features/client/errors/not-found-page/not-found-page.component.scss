@@ -1,0 +1,92 @@
+/**
+ * Not Found Page Styles
+ * 
+ * Estilos da página 404.
+ */
+
+.not-found-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12) var(--spacing-4);
+  background-color: var(--color-bg-secondary);
+}
+
+.not-found-page__container {
+  max-width: 600px;
+  text-align: center;
+}
+
+.not-found-page__content {
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-12);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.not-found-page__code {
+  font-size: 8rem;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-4) 0;
+  line-height: 1;
+}
+
+.not-found-page__title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.not-found-page__message {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-8) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.not-found-page__actions {
+  display: flex;
+  justify-content: center;
+}
+
+.not-found-page__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-purple) 100%);
+  color: var(--color-text-inverse);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast) var(--transition-ease-in-out);
+  box-shadow: var(--shadow-md);
+}
+
+.not-found-page__button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .not-found-page__code {
+    font-size: 6rem;
+  }
+
+  .not-found-page__title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .not-found-page__message {
+    font-size: var(--font-size-base);
+  }
+
+  .not-found-page__content {
+    padding: var(--spacing-8);
+  }
+}

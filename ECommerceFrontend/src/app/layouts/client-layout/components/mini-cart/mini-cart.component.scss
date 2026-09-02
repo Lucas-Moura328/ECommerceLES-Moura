@@ -1,0 +1,48 @@
+/**
+ * Mini Cart Styles
+ * 
+ * Estilos do mini-carrinho.
+ */
+
+.mini-cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: var(--color-text-inverse);
+  cursor: pointer;
+  transition: all var(--transition-fast) var(--transition-ease-in-out);
+  height: 100%; /* Ocupa toda a altura */
+}
+
+.mini-cart:hover {
+  color: var(--color-primary);
+  background-color: var(--color-accent-light);
+}
+
+.mini-cart__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  border-radius: 0;
+  border: 2px solid var(--color-bg-primary);
+}
+
+.mini-cart[aria-expanded="true"] {
+  color: var(--color-primary);
+  background-color: var(--color-accent-light);
+}

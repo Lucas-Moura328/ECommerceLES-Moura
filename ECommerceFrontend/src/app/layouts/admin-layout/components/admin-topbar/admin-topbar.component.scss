@@ -1,0 +1,133 @@
+/**
+ * Admin Topbar Styles
+ * 
+ * Estilos da barra superior do admin.
+ */
+
+.admin-topbar {
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.admin-topbar__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.admin-topbar__toggle {
+  display: none;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-base);
+  transition: all var(--transition-fast) var(--transition-ease-in-out);
+}
+
+.admin-topbar__toggle:hover {
+  color: var(--color-primary);
+  background-color: var(--color-bg-secondary);
+}
+
+.admin-topbar__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.admin-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.admin-topbar__user {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-secondary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast) var(--transition-ease-in-out);
+}
+
+.admin-topbar__user:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.admin-topbar__user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-purple) 100%);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-full);
+}
+
+.admin-topbar__user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-topbar__user-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.admin-topbar__user-role {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.admin-topbar__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-base);
+  transition: all var(--transition-fast) var(--transition-ease-in-out);
+}
+
+.admin-topbar__logout:hover {
+  color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .admin-topbar__toggle {
+    display: flex;
+  }
+
+  .admin-topbar__user-info {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-topbar__title {
+    font-size: var(--font-size-base);
+  }
+
+  .admin-topbar__user-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: var(--font-size-xs);
+  }
+}

@@ -1,0 +1,88 @@
+/**
+ * Admin Layout Styles
+ * 
+ * Estilos do shell da área administrativa.
+ */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-bg-secondary);
+}
+
+.admin-layout__sidebar {
+  width: 260px;
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: var(--z-index-fixed);
+  transition: transform var(--transition-base) var(--transition-ease-in-out);
+}
+
+.admin-layout__container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 260px; /* Largura do sidebar */
+  min-height: 100vh;
+}
+
+.admin-layout__topbar {
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border-default);
+  padding: var(--spacing-4) var(--spacing-6);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky);
+}
+
+.admin-layout__main {
+  flex: 1;
+  padding: var(--spacing-6);
+  overflow-y: auto;
+}
+
+.admin-layout__toast-host {
+  position: fixed;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  z-index: var(--z-index-toast);
+}
+
+/* Estado mobile - sidebar oculto por padrão */
+@media (max-width: 1024px) {
+  .admin-layout__sidebar {
+    transform: translateX(-100%);
+  }
+
+  .admin-layout__container {
+    margin-left: 0;
+  }
+
+  /* Quando sidebar está aberto no mobile */
+  .admin-layout--sidebar-open .admin-layout__sidebar {
+    transform: translateX(0);
+  }
+}
+
+/* Overlay para mobile quando sidebar está aberto */
+.admin-layout__overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-bg-overlay);
+  z-index: calc(var(--z-index-fixed) - 1);
+}
+
+@media (max-width: 1024px) {
+  .admin-layout--sidebar-open .admin-layout__overlay {
+    display: block;
+  }
+}
