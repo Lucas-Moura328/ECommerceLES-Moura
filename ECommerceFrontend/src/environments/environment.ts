@@ -1,11 +1,12 @@
 /**
  * Configurações de ambiente de desenvolvimento.
- * 
- * API_BASE_URL: URL base da API ASP.NET Core
- * API_TIMEOUT: Timeout padrão para requisições HTTP (ms)
+ *
+ * Conforme contrato.md:
+ * - Porta HTTPS: https://localhost:7094
+ * - Porta HTTP: http://localhost:5134
  */
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://localhost:5001/api',
-  apiTimeout: 30000
+  apiBaseUrl: 'https://localhost:7094/api',
+  apiTimeout: 30000,
 };

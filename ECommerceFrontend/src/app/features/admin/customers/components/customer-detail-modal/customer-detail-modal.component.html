@@ -1,0 +1,97 @@
+<app-modal title="Detalhes do Cliente">
+  @if (customer(); as c) {
+    <div class="customer-details">
+      <!-- Cabeçalho com Nome e Status -->
+      <div class="customer-details__header">
+        <div class="customer-details__avatar">
+          <span>{{ c.nome ? c.nome.charAt(0).toUpperCase() : 'C' }}</span>
+        </div>
+        <div class="customer-details__main-info">
+          <h3 class="customer-details__name">{{ c.nome }}</h3>
+          <p class="customer-details__email">{{ c.email }}</p>
+          <div class="customer-details__tags">
+            @if (c.ativo) {
+              <span class="badge badge--success">Ativo</span>
+            } @else {
+              <span class="badge badge--danger">Inativo</span>
+            }
+            @if (c.isAdmin) {
+              <span class="badge badge--admin">Administrador</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Dados Pessoais -->
+      <div class="customer-details__section">
+        <h4 class="customer-details__section-title">Dados Pessoais</h4>
+        <div class="customer-details__grid">
+          <div class="detail-item">
+            <span class="detail-item__label">CPF</span>
+            <span class="detail-item__value">{{ formatCpf(c.cpf) }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item__label">Data de Nascimento</span>
+            <span class="detail-item__value">{{ c.dataNascimento | date: 'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item__label">Gênero</span>
+            <span class="detail-item__value">{{ getGeneroLabel(c.genero) }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item__label">Telefone</span>
+            <span class="detail-item__value">{{ formatPhone(c.ddd, c.telefone) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Endereços -->
+      <div class="customer-details__section">
+        <div class="customer-details__section-header">
+          <h4 class="customer-details__section-title">Endereços Cadastrados</h4>
+          <span class="badge badge--neutral">{{ c.enderecos?.length ?? 0 }}</span>
+        </div>
+
+        @if (c.enderecos && c.enderecos.length > 0) {
+          <div class="customer-details__addresses">
+            @for (end of c.enderecos; track end.idEndereco) {
+              <div class="address-card">
+                <div class="address-card__header">
+                  <div class="address-card__badges">
+                    @if (end.isEntrega) {
+                      <span class="badge badge--info">Entrega</span>
+                    }
+                    @if (end.isCobranca) {
+                      <span class="badge badge--warning">Cobrança</span>
+                    }
+                  </div>
+                  <span class="address-card__id">#{{ end.idEndereco }}</span>
+                </div>
+                <div class="address-card__body">
+                  <p class="address-card__street">
+                    <strong>{{ end.logradouro }}, {{ end.numero }}</strong>
+                    @if (end.complemento) {
+                      <span> - {{ end.complemento }}</span>
+                    }
+                  </p>
+                  <p class="address-card__district">{{ end.bairro }}</p>
+                  <p class="address-card__city-state">
+                    {{ end.municipio }} - {{ end.uf }} | CEP: {{ formatCep(end.cep) }}
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="customer-details__empty-addresses">
+            <p>Nenhum endereço cadastrado para este cliente.</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div modal-footer class="customer-details__footer">
+    <button type="button" class="btn btn--secondary" (click)="close()">Fechar</button>
+  </div>
+</app-modal>

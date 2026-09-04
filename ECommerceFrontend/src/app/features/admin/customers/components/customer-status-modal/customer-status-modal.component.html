@@ -1,0 +1,88 @@
+<app-modal [title]="customer()?.ativo ? 'Confirmar Desativação' : 'Confirmar Ativação'">
+  @if (customer(); as c) {
+    <div class="status-modal">
+      <div
+        class="status-modal__icon"
+        [class.status-modal__icon--danger]="c.ativo"
+        [class.status-modal__icon--success]="!c.ativo"
+      >
+        @if (c.ativo) {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        } @else {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        }
+      </div>
+
+      <div class="status-modal__body">
+        @if (c.ativo) {
+          <p class="status-modal__message">
+            Tem certeza de que deseja <strong>desativar</strong> o cliente
+            <strong>{{ c.nome }}</strong
+            >?
+          </p>
+          <p class="status-modal__submessage">
+            O cliente não poderá mais realizar compras nem acessar o portal enquanto estiver
+            inativo.
+          </p>
+        } @else {
+          <p class="status-modal__message">
+            Deseja <strong>reativar</strong> o acesso do cliente <strong>{{ c.nome }}</strong
+            >?
+          </p>
+          <p class="status-modal__submessage">
+            O cliente voltará a ter acesso normal ao catálogo e serviços da loja.
+          </p>
+        }
+      </div>
+    </div>
+  }
+
+  <div modal-footer class="status-modal__footer">
+    <button type="button" class="btn btn--secondary" (click)="close()" [disabled]="loading()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn"
+      [class.btn--danger]="customer()?.ativo"
+      [class.btn--success]="!customer()?.ativo"
+      (click)="onConfirm()"
+      [disabled]="loading()"
+    >
+      @if (loading()) {
+        <span>Processando...</span>
+      } @else if (customer()?.ativo) {
+        <span>Sim, Desativar</span>
+      } @else {
+        <span>Sim, Ativar</span>
+      }
+    </button>
+  </div>
+</app-modal>

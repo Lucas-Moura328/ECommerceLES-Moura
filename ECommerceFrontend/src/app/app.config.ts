@@ -1,24 +1,22 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
 
 /**
  * Configuração da aplicação Angular.
- * 
+ *
  * Providers configurados:
  * - provideRouter: Sistema de roteamento
- * - provideHttpClient: Cliente HTTP com suporte a interceptores
+ * - provideHttpClient: Cliente HTTP com interceptor global de erros e suporte a DI
  * - provideBrowserGlobalErrorListeners: Captura global de erros no navegador
- * 
- * Nota: Animações foram removidas temporariamente devido a conflito de versões.
- * Serão adicionadas novamente quando as dependências forem alinhadas.
  */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi())
-  ]
+    provideHttpClient(withInterceptors([errorInterceptor]), withInterceptorsFromDi()),
+  ],
 };

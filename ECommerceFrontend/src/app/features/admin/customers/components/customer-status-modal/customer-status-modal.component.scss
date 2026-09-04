@@ -1,0 +1,97 @@
+.status-modal {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 0.5rem 0;
+
+  &__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &--danger {
+      background-color: var(--color-error-bg);
+      color: var(--color-error);
+    }
+
+    &--success {
+      background-color: var(--color-success-bg);
+      color: var(--color-success);
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__message {
+    font-size: 1rem;
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  &__submessage {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-base);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &--secondary {
+    background-color: var(--color-gray-100);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-gray-200);
+    }
+  }
+
+  &--danger {
+    background-color: var(--color-error);
+    color: var(--color-text-inverse);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-error-hover);
+    }
+  }
+
+  &--success {
+    background-color: var(--color-success);
+    color: var(--color-text-inverse);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-success-hover);
+    }
+  }
+}

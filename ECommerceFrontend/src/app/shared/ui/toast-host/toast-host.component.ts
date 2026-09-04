@@ -1,74 +1,52 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  NotificationService,
+  ToastNotification,
+} from '../../../core/services/notification.service';
 
-/**
- * Interface para notificações (toasts)
- */
-export interface ToastNotification {
-  id: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  title: string;
-  message?: string;
-  duration?: number; // Tempo em ms, padrão 5000
-}
+export type { ToastNotification };
 
 /**
  * Toast Host Component
- * 
+ *
  * Container para notificações globais (toasts).
- * 
+ *
  * Este componente é montado uma vez em cada layout
- * e renderiza as notificações enviadas pelo NotificationService.
- * 
+ * e renderiza as notificações emitidas pelo NotificationService.
+ *
  * Posicionamento: top-right por padrão.
  */
 @Component({
   selector: 'app-toast-host',
   standalone: true,
   templateUrl: './toast-host.component.html',
-  styleUrl: './toast-host.component.scss'
+  styleUrl: './toast-host.component.scss',
 })
 export class ToastHostComponent {
-  // Signal com a lista de notificações ativas
-  toasts = signal<ToastNotification[]>([]);
+  private readonly notificationService = inject(NotificationService);
+
+  // Signal com a lista de notificações ativas compartilhada pelo NotificationService
+  readonly toasts = this.notificationService.toasts;
 
   /**
-   * Adiciona uma nova notificação
+   * Adiciona uma nova notificação através do serviço
    */
   addToast(toast: Omit<ToastNotification, 'id'>): void {
-    const id = this.generateId();
-    const newToast: ToastNotification = {
-      ...toast,
-      id,
-      duration: toast.duration || 5000
-    };
-
-    this.toasts.update(current => [...current, newToast]);
-
-    // Remove automaticamente após o duration
-    setTimeout(() => {
-      this.removeToast(id);
-    }, newToast.duration);
+    this.notificationService.addToast(toast);
   }
 
   /**
    * Remove uma notificação pelo ID
    */
   removeToast(id: string): void {
-    this.toasts.update(current => current.filter(t => t.id !== id));
+    this.notificationService.removeToast(id);
   }
 
   /**
    * Remove todas as notificações
    */
   clearAll(): void {
-    this.toasts.set([]);
-  }
-
-  /**
-   * Gera um ID único para a notificação
-   */
-  private generateId(): string {
-    return `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    this.notificationService.clearAll();
   }
 
   /**

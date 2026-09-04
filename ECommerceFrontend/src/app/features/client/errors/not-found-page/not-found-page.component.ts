@@ -3,9 +3,9 @@ import { RouterLink } from '@angular/router';
 
 /**
  * Not Found Page Component
- * 
+ *
  * Página 404 - Página não encontrada.
- * 
+ *
  * Exibida quando o usuário acessa uma rota que não existe.
  */
 @Component({
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './not-found-page.component.html',
-  styleUrl: './not-found-page.component.scss'
+  styleUrl: './not-found-page.component.scss',
 })
 export class NotFoundPageComponent {
   // Lógica da página 404 pode ser adicionada aqui futuramente
